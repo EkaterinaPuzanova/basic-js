@@ -23,9 +23,45 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
+function minesweeper(matrix) {
+  //throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
+  let arrBomb = [];
+  
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix[i].length; j += 1){
+      if (matrix[i][j] == true) {
+        arrBomb.push([i, j]);
+      }
+    }
+  }
+
+  if (arrBomb.length == 0) {
+    for (let i = 0; i < matrix.length; i += 1) {
+      for (let j = 0; j < matrix[i].length; j += 1){
+        matrix[i][j] = 0;
+      }
+    }
+  }
+
+  for (let i = 0; i < arrBomb.length; i += 1) {
+    let x = arrBomb[i][0];
+    let y = arrBomb[i][1];
+    let arrXY = [x-1, y-1, x-1, y, x-1, y+1, x, y-1,  x, y+1, x+1, y-1, x+1, y, x+1, y+1];
+    
+    for (let c = 0; c < arrXY.length - 1; c += 2) {
+      if ((arrXY[c] >= 0) && (arrXY[c+1] >= 0)) {
+        if (typeof matrix[arrXY[c]][arrXY[c+1]] === 'number')  {
+          matrix[arrXY[c]][arrXY[c+1]] += 1;
+        } else {
+          matrix[arrXY[c]][arrXY[c+1]] = 1;
+        }
+        
+      }
+    }
+    
+  }
+  return matrix;
 }
 
 module.exports = {
